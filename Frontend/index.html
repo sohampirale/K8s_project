@@ -10,6 +10,33 @@
 </head>
 
 <body class="m-0 p-0">
+    <div id="login-screen" class="login-overlay">
+        <div class="login-container">
+            <h2>Welcome to Gorillas!</h2>
+            
+            <!-- Initial Game Mode Selection -->
+            <div id="mode-selection" class="game-mode-selection">
+                <button class="login-btn" onclick="showPlayerInputs('single')">Single Player</button>
+                <button class="login-btn" onclick="showPlayerInputs('two')">Two Players</button>
+                <button class="login-btn" onclick="initializeGame('auto')">Auto Play</button>
+            </div>
+
+            <!-- Player Input Fields (Hidden Initially) -->
+            <div id="player-inputs" class="player-inputs">
+                <div class="player-input" id="player1-input">
+                    <label for="player1">Player 1:</label>
+                    <input type="text" id="player1" placeholder="Enter username">
+                </div>
+                <div class="player-input" id="player2-input">
+                    <label for="player2">Player 2:</label>
+                    <input type="text" id="player2" placeholder="Enter username">
+                </div>
+                <button class="login-btn" id="start-game">Start Game</button>
+                <button class="back-btn" onclick="showModeSelection()">Back</button>
+            </div>
+        </div>
+    </div>
+
     <canvas id="game"></canvas>
 
     <svg width="200" height="250" id="windmill">
@@ -50,28 +77,12 @@
 
     <div id="congratulations">
         <h1><span id="winner">?</span> won!</h1>
-        <div class="dropdown">
-            <button class="dropbtn">New Game</button>
-            <div class="dropdown-content">
-                <a href="#" class="single-player">Single Player</a>
-                <a href="#" class="two-players">Two-Player</a>
-                <a href="#" class="auto-play">Autoplay</a>
-            </div>
-        </div>
+        <button class="new-game-btn" onclick="location.reload()">New Game</button>
     </div>
 
     <div id="settings">
-        <div class="dropdown">
-            <button class="dropbtn">New Game</button>
-            <div class="dropdown-content">
-                <a href="#" class="single-player">Single Player</a>
-                <a href="#" class="two-players">Two-Players</a>
-                <a href="#" class="auto-play">Autoplay</a>
-            </div>
-        </div>
-
+        <button class="new-game-btn" onclick="location.reload()">New Game</button>
         <button id="color-mode">Dark Mode</button>
-
     </div>
 
     <button id="fullscreen" onclick="toggleFullscreen()">

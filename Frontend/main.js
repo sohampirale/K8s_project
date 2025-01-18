@@ -56,6 +56,11 @@ const twoPlayersButtonDOM = document.querySelectorAll(".two-players");
 const autoPlayButtonDOM = document.querySelectorAll(".auto-play");
 const colorModeButtonDOM = document.getElementById("color-mode");
 
+let players = {
+    player1: "",
+    player2: ""
+};
+
 
 
 colorModeButtonDOM.addEventListener("click", () => {
@@ -897,46 +902,115 @@ function announceWinner() {
   if (settings.numberOfPlayers === 0) {
     winnerDOM.innerText = `Computer ${state.currentPlayer}`;
   } else if (settings.numberOfPlayers === 1 && state.currentPlayer === 1) {
-    winnerDOM.innerText = `You`;
+    winnerDOM.innerText = `${players.player1}`;
   } else if (settings.numberOfPlayers === 1 && state.currentPlayer === 2) {
     winnerDOM.innerText = `Computer`;
   } else {
-    winnerDOM.innerText = `Player ${state.currentPlayer}`;
+    winnerDOM.innerText = state.currentPlayer === 1 ? players.player1 : players.player2;
   }
   showCongratulations();
+  saveGameResult();
 }
 
-singlePlayerButtonDOM.forEach((button) =>
-  button.addEventListener("click", () => {
-    settings.numberOfPlayers = 1;
-    gameModeDOM.innerHTML = "Player vs. Computer";
-    name1DOM.innerText = "Player";
-    name2DOM.innerText = "Computer";
+function showLoginScreen() {
+    const loginScreen = document.getElementById('login-screen');
+    loginScreen.style.display = 'flex';
+}
 
+function hideLoginScreen() {
+    const loginScreen = document.getElementById('login-screen');
+    loginScreen.style.display = 'none';
+}
+
+function showPlayerInputs(mode) {
+    const modeSelection = document.getElementById('mode-selection');
+    const playerInputs = document.getElementById('player-inputs');
+    const player2Input = document.getElementById('player2-input');
+    const startGameBtn = document.getElementById('start-game');
+    
+    modeSelection.style.display = 'none';
+    playerInputs.style.display = 'block';
+    
+    // Configure inputs based on mode
+    if (mode === 'single') {
+        player2Input.style.display = 'none';
+        startGameBtn.onclick = () => initializeGame('single');
+    } else if (mode === 'two') {
+        player2Input.style.display = 'block';
+        startGameBtn.onclick = () => initializeGame('two');
+    }
+}
+
+function showModeSelection() {
+    const modeSelection = document.getElementById('mode-selection');
+    const playerInputs = document.getElementById('player-inputs');
+    
+    modeSelection.style.display = 'flex';
+    playerInputs.style.display = 'none';
+}
+
+function initializeGame(mode) {
+    const player1Input = document.getElementById('player1')?.value.trim() || '';
+    const player2Input = document.getElementById('player2')?.value.trim() || '';
+    
+    if (mode === 'single') {
+        if (!player1Input) {
+            alert('Please enter a username for Player 1');
+            return;
+        }
+        players.player1 = player1Input;
+        players.player2 = "Computer";
+        settings.numberOfPlayers = 1;
+        gameModeDOM.innerHTML = "Player vs. Computer";
+    } else if (mode === 'two') {
+        if (!player1Input || !player2Input) {
+            alert('Please enter usernames for both players');
+            return;
+        }
+        players.player1 = player1Input;
+        players.player2 = player2Input;
+        settings.numberOfPlayers = 2;
+        gameModeDOM.innerHTML = "Player vs. Player";
+    } else {
+        players.player1 = "Computer 1";
+        players.player2 = "Computer 2";
+        settings.numberOfPlayers = 0;
+        gameModeDOM.innerHTML = "Computer vs. Computer";
+    }
+    
+    name1DOM.innerText = players.player1;
+    name2DOM.innerText = players.player2;
+    
+    hideLoginScreen();
     newGame();
-  })
-);
+}
 
-twoPlayersButtonDOM.forEach((button) =>
-  button.addEventListener("click", () => {
-    settings.numberOfPlayers = 2;
-    gameModeDOM.innerHTML = "Player vs. Player";
-    name1DOM.innerText = "Player 1";
-    name2DOM.innerText = "Player 2";
+async function saveGameResult() {
+    try {
+        const data = {
+            user1: players.player1,
+            user2: players.player2,
+            whoWon: state.currentPlayer === 1 ? players.player1 : players.player2,
+            time: new Date()
+        };
 
-    newGame();
-  })
-);
+        const response = await fetch('http://localhost:4904/nemo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
 
-autoPlayButtonDOM.forEach((button) =>
-  button.addEventListener("click", () => {
-    settings.numberOfPlayers = 0;
-    name1DOM.innerText = "Computer 1";
-    name2DOM.innerText = "Computer 2";
+        if (!response.ok) {
+            throw new Error('Failed to save game result');
+        }
+    } catch (error) {
+        console.error('Error saving game result:', error);
+    }
+}
 
-    newGame();
-  })
-);
+window.addEventListener('load', showLoginScreen);
 
 function generateWindSpeed() {
   return -10 + Math.random() * 20;
