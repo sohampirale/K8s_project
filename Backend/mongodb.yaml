@@ -21,9 +21,8 @@ spec:
         - name: mongodb-data
           mountPath: /data/db
       volumes:
-      - name: mongodb-data
-        persistentVolumeClaim:
-          claimName: mongodb-pvc
+        - name: mongodb-data
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -32,18 +31,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 27017
+  - protocol: TCP
+    port: 27017
     targetPort: 27017
   selector:
     app: mongodb
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mongodb-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi 

@@ -994,7 +994,7 @@ async function saveGameResult() {
             time: new Date()
         };
 
-        const response = await fetch('http://localhost:4904/nemo', {
+        const response = await fetch('http://192.168.49.2:30064/nemo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

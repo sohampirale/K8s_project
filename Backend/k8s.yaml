@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: gorillas-backend
-        image: gorillas-backend:latest
+        image: wildwarrior44/gorillas-backend:latest
         ports:
         - containerPort: 4904
         env:
@@ -26,9 +26,10 @@ kind: Service
 metadata:
   name: gorillas-backend-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - port: 4904
     targetPort: 4904
+    nodePort: 30064
   selector:
     app: gorillas-backend 
