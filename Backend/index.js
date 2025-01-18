@@ -8,7 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-await mongoose.connect(process.env.MONGODB_URI);
+await mongoose.connect(process.env.MONGODB_URI).then(()=>{
+    console.log("Connected to the database");
+}).catch((err)=>{
+    console.log(err);
+});
 
 const Schema = new mongoose.Schema({
     user1: String,
