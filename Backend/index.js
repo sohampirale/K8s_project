@@ -38,7 +38,7 @@ app.post("/nemo", async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 4904;
 app.listen(PORT, "0.0.0.0", () => {
     console.log("Server is running on some port why should I tell you?");
 });
