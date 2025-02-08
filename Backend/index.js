@@ -33,8 +33,9 @@ app.post("/nemo", async (req, res) => {
         const newScore = new Records(data);
         await newScore.save();
         res.status(200).json({ message: "Score saved successfully!" });
-    } catch (error) {
-        res.status(500).json({ error: "The database said go away" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: "The database said go away" });
     }
 });
 
