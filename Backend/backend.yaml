@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gorillas-backend
+  name: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gorillas-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: gorillas-backend
+        app: backend
     spec:
       containers:
-      - name: gorillas-backend
-        image: wildwarrior44/gorillas-backend:latest
+      - name: backend
+        image: wildwarrior44/backend
+        imagePullPolicy: Never 
         ports:
         - containerPort: 4904
         env:
@@ -24,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gorillas-backend-service
+  name: backend-service
 spec:
   type: NodePort
   ports:
@@ -32,4 +33,4 @@ spec:
     targetPort: 4904
     nodePort: 30064
   selector:
-    app: gorillas-backend 
+    app: backend 

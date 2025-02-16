@@ -991,10 +991,10 @@ async function saveGameResult() {
             user1: players.player1,
             user2: players.player2,
             whoWon: state.currentPlayer === 1 ? players.player1 : players.player2,
-            time: new Date()
         };
-
-        const response = await fetch('http://192.168.49.2:30064/nemo', {
+        console.log(data);
+        
+        const response = await fetch('http://localhost:9563/nemo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

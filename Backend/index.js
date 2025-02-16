@@ -11,16 +11,11 @@ app.use(express.json());
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            serverSelectionTimeoutMS: 5000, // Wait up to 5s before erroring
-            socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
-        });
-        console.log("✅ Connected to MongoDB");
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("Connected to MongoDB");
     } catch (err) {
-        console.error("❌ MongoDB connection error:", err);
-        setTimeout(connectDB, 5000); // Retry connection after 5s
+        console.error("MongoDB connection error:", err);
+        setTimeout(connectDB, 5000);
     }
 };
 await connectDB();
@@ -46,12 +41,12 @@ app.post("/nemo", async (req, res) => {
 
         res.status(200).json({ message: "Score saved successfully!" });
     } catch (err) {
-        console.error("❌ Error saving score:", err);
+        console.error("Error saving score:", err);
         res.status(500).json({ error: "Failed to save score", err});
     }
 });
 
-const PORT = process.env.PORT || 4904;
+const PORT = 4904;
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

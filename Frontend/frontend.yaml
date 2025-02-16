@@ -1,27 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gorillas-frontend
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gorillas-frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: gorillas-frontend
+        app: frontend
     spec:
       containers:
-      - name: gorillas-frontend
-        image: wildwarrior44/gorillas-frontend:latest
+      - name: frontend
+        image: wildwarrior44/frontend
+        imagePullPolicy: Never 
         ports:
         - containerPort: 9563
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: gorillas-frontend-service
+  name: frontend-service
 spec:
   type: NodePort
   ports:
@@ -29,4 +30,4 @@ spec:
     targetPort: 9563
     nodePort: 30063
   selector:
-    app: gorillas-frontend 
+    app: frontend 
