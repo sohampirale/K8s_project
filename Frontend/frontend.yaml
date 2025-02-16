@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: wildwarrior44/frontend
+        image: soham/frontend
         imagePullPolicy: Never 
         ports:
         - containerPort: 9563

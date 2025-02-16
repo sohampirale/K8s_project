@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: wildwarrior44/backend
+        image: soham/backend
         imagePullPolicy: Never 
         ports:
         - containerPort: 4904

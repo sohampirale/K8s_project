@@ -16,13 +16,13 @@ eval $(minikube docker-env)
 ## Frontend Deployment
 ```
 cd Frontend
-docker build -t pranav0786/frontend .
+docker build -t soham/frontend .
 kubectl apply -f frontend.yaml 
 ```
 
 ## Backend Deployment
 ```
-docker build -t pranav0786/backend .
+docker build -t soham/backend .
 kubectl apply -f backend.yaml
 kubectl apply -f mongodb.yaml
 ```
