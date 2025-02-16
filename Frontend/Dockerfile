@@ -1,4 +1,4 @@
-FROM node:20-slim
+FROM ghcr.io/aunchagaonkar/node
 
 WORKDIR /app
 
